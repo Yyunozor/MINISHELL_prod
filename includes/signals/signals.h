@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/24 00:00:00 by anpayot           #+#    #+#             */
-/*   Updated: 2025/09/25 21:58:00 by jsurian42        ###   ########.fr       */
+/*   Created: 2025/09/28 01:20:00 by anpayot           #+#    #+#             */
+/*   Updated: 2025/09/28 04:42:26 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,11 @@
 
 # include <signal.h>
 
-/* Exposed globals (defined in signals.c) */
-extern volatile sig_atomic_t	g_sigint_flag;
-extern volatile sig_atomic_t	g_last_status;
+extern volatile sig_atomic_t	g_signal_received;
 
-/* Prompt mode (interactive) handlers installation */
-void	set_prompt_signals(void);
+void	signals_set_interactive(void);
+void	signals_set_exec_parent(void);
+void	signals_set_exec_child(void);
+void	signals_set_heredoc(void);
 
-/* Parent (shell) just before forking commands */
-void	set_exec_signals_parent(void);
-
-/* In child process immediately after fork */
-void	set_exec_signals_child(void);
-
-/* Utility to translate a waited child status into g_last_status */
-void	update_status_from_wait(int status);
-
-#endif /* SIGNALS_H */
+#endif
