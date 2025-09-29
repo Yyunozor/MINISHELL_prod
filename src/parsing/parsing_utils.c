@@ -6,7 +6,7 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 10:30:00 by anpayot           #+#    #+#             */
-/*   Updated: 2025/09/29 10:22:45 by anpayot          ###   ########.fr       */
+/*   Updated: 2025/09/29 13:55:14 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,28 @@
 static char	*read_shell_line(t_shell *shell)
 {
 	char	*line;
+	int	null_fd;
+	int	saved_stdout;
 
 	if (shell->is_interactive)
 		return (readline("minishell % "));
-	if (shell->stdout_isatty)
-		ft_putstr_fd("minishell % ", STDOUT_FILENO);
-	line = readline("");
-	return (line);
+	else
+	{
+		/* Redirect stdout to /dev/null to suppress readline echo */
+		null_fd = open("/dev/null", O_WRONLY);
+		if (null_fd != -1)
+		{
+			saved_stdout = dup(STDOUT_FILENO);
+			dup2(null_fd, STDOUT_FILENO);
+			line = readline("");
+			dup2(saved_stdout, STDOUT_FILENO);
+			close(saved_stdout);
+			close(null_fd);
+		}
+		else
+			line = readline("");
+		return (line);
+	}
 }
 
 char	*parsing_get_line(t_shell *shell)
@@ -46,7 +61,8 @@ int	parsing_handle_line(t_shell *shell, char *line)
 		free(line);
 		return (1);
 	}
-	add_history(line);
+	if (shell->is_interactive)
+		add_history(line);
 	if (shell->head)
 	{
 		ft_lstclear(&shell->head, del_lst_scmd);

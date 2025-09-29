@@ -6,7 +6,7 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 07:45:00 by anpayot           #+#    #+#             */
-/*   Updated: 2025/09/29 08:15:36 by anpayot          ###   ########.fr       */
+/*   Updated: 2025/09/29 13:55:14 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	heredoc_expand_line(t_red *red, char **line, char **envp,
 	if (red->quoted_heredoc)
 		return (0);
 	expanded = expand_str_heredoc(*line, envp, exit_status);
-	free(*line);
 	if (expanded == NULL)
 	{
 		*line = NULL;
@@ -77,10 +76,19 @@ int	heredoc_collect_lines(t_red *red, t_heredoc_ctx *ctx)
 
 	while (1)
 	{
+		if (g_signal_received == SIGINT)
+			return (heredoc_cleanup(ctx->fd_pipe, NULL, -1));
 		line = readline("> ");
-		if (g_signal_received == SIGINT || line == NULL)
-			return (heredoc_cleanup(ctx->fd_pipe, line, -1));
-		if (!ft_strncmp(line, red->word, ctx->delim_len + 1))
+		if (g_signal_received == SIGINT)
+		{
+			if (line)
+				free(line);
+			return (heredoc_cleanup(ctx->fd_pipe, NULL, -1));
+		}
+		if (line == NULL) /* EOF (Ctrl+D) */
+			return (heredoc_cleanup(ctx->fd_pipe, NULL, -1));
+		if (ft_strlen(line) == ctx->delim_len 
+			&& !ft_strncmp(line, red->word, ctx->delim_len))
 		{
 			free(line);
 			break ;
