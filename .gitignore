@@ -1,0 +1,19 @@
+# Ignore compiled object files and static libraries
+*.o
+*.a
+
+# Ignore executables and Tests
+minishell
+test/*
+
+# Ignore editor and OS files
+.DS_Store
+*.swp
+*.swo
+
+# Ignore backup and log files
+*~
+*.log
+
+# PDF and documentation
+Subject_MiniShell.pdf

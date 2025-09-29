@@ -1,0 +1,24 @@
+Mini exit: 42
+Bash exit: 42
+--- diff
+--- /dev/fd/63	2025-09-28 10:49:14
++++ /dev/fd/62	2025-09-28 10:49:14
+@@ -1,4 +1,4 @@
+ 127
+ 127
+-bash: line 1: /bin/false: No such file or directory
+-bash: line 3: /bin/true: No such file or directory
++minishell: /bin/false: No such file or directory
++minishell: /bin/true: No such file or directory
+--- minishell stdout
+127
+127
+--- minishell stderr
+minishell: /bin/false: No such file or directory
+minishell: /bin/true: No such file or directory
+--- bash stdout
+127
+127
+--- bash stderr
+bash: line 1: /bin/false: No such file or directory
+bash: line 3: /bin/true: No such file or directory
