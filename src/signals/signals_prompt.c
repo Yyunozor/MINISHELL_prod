@@ -12,6 +12,7 @@
 
 #include "signals.h"
 
+#include <signal.h>
 #include <readline/readline.h>
 #include <unistd.h>
 
@@ -39,20 +40,8 @@ static void	sigint_prompt(int sig)
 	rl_redisplay();
 }
 
-static void	sigquit_prompt(int sig)
-{
-	(void)sig;
-}
-
 void	signals_set_interactive(void)
 {
-	struct sigaction	sa;
-
-	sa.sa_flags = SA_RESTART;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = sigint_prompt;
-	sigaction(SIGINT, &sa, NULL);
-	sa.sa_handler = sigquit_prompt;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGQUIT, &sa, NULL);
+	signal(SIGINT, sigint_prompt);
+	signal(SIGQUIT, SIG_IGN);
 }
