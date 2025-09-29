@@ -6,7 +6,7 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:45:13 by jsurian42         #+#    #+#             */
-/*   Updated: 2025/09/29 13:55:14 by anpayot          ###   ########.fr       */
+/*   Updated: 2025/09/29 16:35:24 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # include "builtins.h"
 # include "redirections.h"
 # include "redirections/heredoc_utils.h"
-# include "signals.h"
+# include "signals/signals.h"
 
 typedef struct s_red
 {

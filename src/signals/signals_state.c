@@ -6,10 +6,10 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 18:45:00 by anpayot           #+#    #+#             */
-/*   Updated: 2025/09/29 13:55:14 by anpayot          ###   ########.fr       */
+/*   Updated: 2025/09/29 16:35:24 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "signals.h"
+#include "signals/signals.h"
 
 volatile sig_atomic_t	g_signal_received = 0;

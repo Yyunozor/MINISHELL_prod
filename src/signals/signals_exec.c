@@ -6,11 +6,11 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 07:40:00 by anpayot           #+#    #+#             */
-/*   Updated: 2025/09/29 08:15:36 by anpayot          ###   ########.fr       */
+/*   Updated: 2025/09/29 16:35:24 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "signals.h"
+#include "signals/signals.h"
 
 void	signals_set_exec_parent(void)
 {

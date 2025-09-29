@@ -6,49 +6,37 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 07:41:00 by anpayot           #+#    #+#             */
-/*   Updated: 2025/09/29 13:55:14 by anpayot          ###   ########.fr       */
+/*   Updated: 2025/09/29 17:08:36 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "signals.h"
+#include "signals/signals.h"
 #include <signal.h>
+#include <sys/types.h>
 #include <readline/readline.h>
 #include <unistd.h>
-
-#ifdef rl_replace_line
-
-static void	clear_heredoc_line(void)
-{
-	rl_replace_line("", 0);
-}
-
-#else
-
-static void	clear_heredoc_line(void)
-{
-}
-
-#endif
 
 static void	sigint_heredoc(int sig)
 {
 	g_signal_received = sig;
 	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	clear_heredoc_line();
-	rl_redisplay();
+	/* Ne pas restaurer le handler - laisser le signal interrompre read() */
 }
 
 void	signals_set_heredoc(void)
 {
-	struct sigaction	sa;
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
 
-	sa.sa_handler = sigint_heredoc;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;  /* Don't restart interrupted system calls */
-	sigaction(SIGINT, &sa, NULL);
-	sa.sa_handler = SIG_IGN;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGQUIT, &sa, NULL);
+	/* SIGINT : doit interrompre read() sans le redémarrer */
+	sa_int.sa_handler = sigint_heredoc;
+	sigemptyset(&sa_int.sa_mask);
+	sa_int.sa_flags = 0;  /* Pas de SA_RESTART ! */
+	sigaction(SIGINT, &sa_int, NULL);
+
+	/* SIGQUIT : ignorer */
+	sa_quit.sa_handler = SIG_IGN;
+	sigemptyset(&sa_quit.sa_mask);
+	sa_quit.sa_flags = 0;
+	sigaction(SIGQUIT, &sa_quit, NULL);
 }

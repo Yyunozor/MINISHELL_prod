@@ -6,7 +6,7 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 07:45:00 by anpayot           #+#    #+#             */
-/*   Updated: 2025/09/29 08:15:36 by anpayot          ###   ########.fr       */
+/*   Updated: 2025/09/29 17:22:43 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ int			heredoc_expand_line(t_red *red, char **line,
 void		heredoc_write_and_free(int write_fd, char *line);
 void		exec_cleanup_heredocs(t_exec_data *data);
 int			heredoc_collect_lines(t_red *red, t_heredoc_ctx *ctx);
+char		*read_heredoc_line(void);
 
 #endif

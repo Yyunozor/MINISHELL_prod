@@ -6,37 +6,22 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 01:20:00 by anpayot           #+#    #+#             */
-/*   Updated: 2025/09/29 14:05:35 by anpayot          ###   ########.fr       */
+/*   Updated: 2025/09/29 16:35:24 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "signals.h"
+#include "signals/signals.h"
 
 #include <signal.h>
 #include <readline/readline.h>
 #include <unistd.h>
-
-#ifdef rl_replace_line
-
-static void	clear_prompt_line(void)
-{
-	rl_replace_line("", 0);
-}
-
-#else
-
-static void	clear_prompt_line(void)
-{
-}
-
-#endif
 
 static void	sigint_prompt(int sig)
 {
 	g_signal_received = sig;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
-	clear_prompt_line();
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
